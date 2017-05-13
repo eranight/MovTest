@@ -12,8 +12,6 @@ class Sector;
 
 namespace AstralGame
 {
-	class Ship;
-
 	class Monster : public cocos2d::Node
 	{
 	protected:
@@ -33,11 +31,11 @@ namespace AstralGame
 	public:
 
 		int getMode() { return behaviorMode; }
-		Ship * getTarget() { return target; }
+		cocos2d::Node * getTarget() { return target; }
 
 		//if passed target is not null, Monster-class is creating AgressiveBehavior-field
 		//if passed target is null Monster-class switch to calmBehavior
-		void setTarget(Ship * target = nullptr);
+		void setTarget(cocos2d::Node * target = nullptr);
 
 	public:
 
@@ -48,7 +46,7 @@ namespace AstralGame
 	private:
 
 		int behaviorMode; //1 - calm, 2 - agressive;
-		Ship * target; //tracking target (if distance 
+		cocos2d::Node * target; //tracking target (if distance 
 
 	private:
 

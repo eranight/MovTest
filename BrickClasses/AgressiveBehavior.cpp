@@ -19,7 +19,7 @@ engine(engine), canon(canon), target(nullptr), maxFireDistance(maxFireDistance),
 	};*/
 }
 
-void AgressiveBehavior::setTarget(Ship * target)
+void AgressiveBehavior::setTarget(Node * target)
 {
 	this->target = target;
 

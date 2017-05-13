@@ -5,7 +5,6 @@
 
 namespace AstralGame
 {
-	class Ship;
 	class Engine;
 	class Canon;
 
@@ -21,9 +20,9 @@ namespace AstralGame
 		int getMode() { return mode; }
 		Engine * getEngine() { return engine; }
 		Canon * getCanon() { return canon; }
-		Ship * getTarget() { return target; }
+		cocos2d::Node * getTarget() { return target; }
 
-		void setTarget(Ship * target);
+		void setTarget(cocos2d::Node * target);
 
 	public:		//distance interface
 
@@ -44,7 +43,7 @@ namespace AstralGame
 
 		Engine * engine;
 		Canon * canon;
-		Ship * target;
+		cocos2d::Node * target;
 
 		//1 - reach target, 2 - fire, 3 - change position
 		int mode;

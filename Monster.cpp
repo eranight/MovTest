@@ -112,7 +112,7 @@ void Monster::update(float dt)
 	}
 }
 
-void Monster::setTarget(Ship * target/* = nullptr*/)
+void Monster::setTarget(Node * target/* = nullptr*/)
 {
 	this->target = target;
 
