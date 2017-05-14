@@ -5,6 +5,8 @@ USING_NS_CC;
 
 using namespace AstralGame;
 
+const std::string Engine::NAME = "engine";
+
 Engine::Engine(Sector * sector, cocos2d::Node * user, cocos2d::ParticleSystem * view /*= nullptr*/) :
 sector(sector), user(user), view(view), edgeSectorCollisionReaction(nullptr)
 {
@@ -28,6 +30,14 @@ Engine * Engine::create(Sector * sector, cocos2d::Node * user, cocos2d::Particle
 }
 
 //common interface
+
+bool Engine::init()
+{
+	if (!Component::init())
+		return false;
+	setName(NAME);
+	return true;
+}
 
 void Engine::update(float dt)
 {

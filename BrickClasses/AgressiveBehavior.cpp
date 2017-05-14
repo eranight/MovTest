@@ -2,6 +2,8 @@
 #include "Ship.h"
 #include "Engine.h"
 #include "Canon.h"
+#include "BrickClasses\Parameters.h"
+#include "Properties\Hittable.h"
 
 USING_NS_CC;
 
@@ -24,6 +26,8 @@ void AgressiveBehavior::start(Node * target)
 	this->target = target;
 	engine->setCurrMovVelocity(velocity);
 	mode = 1;
+
+	hittable = dynamic_cast<Parameters *>(target->getUserObject())->getProperty<Hittable *>(PROPS_TYPE::hittable);
 }
 
 void AgressiveBehavior::stop()
@@ -34,6 +38,12 @@ void AgressiveBehavior::stop()
 void AgressiveBehavior::update(float dt)
 {
 	CCASSERT(target != nullptr, "Target shouldn't be null!");
+
+	if (hittable->isDead())
+	{
+		targetIsDeadReaction();
+		return;
+	}
 
 	const Vec2 & ownpos = engine->getUser()->getPosition();
 	const Vec2 & shppos = target->getPosition();

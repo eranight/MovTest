@@ -19,12 +19,16 @@ namespace AstralGame
 
 		static Engine * create(Sector * sector, cocos2d::Node * user, cocos2d::ParticleSystem * view = nullptr);
 
+		bool init() override;
+
 		//for manage rotation, movement and view
 		void update(float dt) override;
 
 		//call it when sector->checkValidPosition(nextPos) is false
 		//can be null (in this case movement will be stoped)
 		std::function<void(const cocos2d::Vec2 &)> edgeSectorCollisionReaction;
+
+		static const std::string NAME;
 
 	public:
 

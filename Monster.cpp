@@ -1,6 +1,5 @@
 #include "Monster.h"
 #include "Ship.h"
-#include "Properties\Hittable.h"
 #include "Components\TrackingTarget.h"
 
 USING_NS_CC;
@@ -59,7 +58,6 @@ bool Monster::init(Sector * sector, float trackingDistance)
 		CCLOG("Failed create engine");
 		return false;
 	}
-	engine->setName("engine");
 	this->addComponent(engine);
 	engine->setMaxMovVelocity(140.0f);
 
@@ -72,9 +70,6 @@ bool Monster::init(Sector * sector, float trackingDistance)
 	this->addComponent(trackingTarget);
 	trackingTarget->targetIsInTrakcingZoneReaction = [this, trackingTarget](Node * target)
 	{
-		this->hittable = dynamic_cast<Parameters *>(target->getUserObject())->getProperty<Hittable *>(PROPS_TYPE::hittable);
-		CCASSERT(this->hittable != nullptr, "Hittable should be found!");
-
 		this->behaviorMode = 2;
 		this->calmBehavior->stop();
 		this->agressiveBehavior->start(target);
@@ -104,9 +99,13 @@ bool Monster::init(Sector * sector, float trackingDistance)
 		CC_SAFE_DELETE(calmBehavior);
 		return false;
 	}
+	agressiveBehavior->targetIsDeadReaction = [this]()
+	{
+		this->behaviorMode = 1;
+		this->calmBehavior->start();
+		this->agressiveBehavior->stop();
+	};
 
-
-	this->trackingDistance = trackingDistance;
 	this->addChild(body, 1);
 	behaviorMode = 1;
 	calmBehavior->start();
@@ -128,15 +127,7 @@ void Monster::update(float dt)
 	}
 	else
 	{
-		if (!hittable->isDead())
-			agressiveBehavior->update(dt);
-		else
-		{
-			target = nullptr;
-			behaviorMode = 1;
-			calmBehavior->start();
-			agressiveBehavior->stop();
-		}
+		agressiveBehavior->update(dt);
 	}
 }
 

@@ -2,6 +2,8 @@
 #include "Sector.h"
 #include "BrickClasses\Engine.h"
 #include "Components\AttackingBullets.h"
+#include "Properties\Hittable.h"
+#include "BrickClasses\Parameters.h"
 
 USING_NS_CC;
 
@@ -83,6 +85,9 @@ void Bullet::update(float dt)
 		{
 			attackingBulletsComponent->uregistrateBullet(this);
 			auto target = attackingBulletsComponent->getOwner();
+			auto hittable = dynamic_cast<Parameters *>(target->getUserObject())->getProperty<Hittable *>(PROPS_TYPE::hittable);
+			hittable->impactDamage(100);
+	
 			//hit target and removeself
 			dead = true;
 			auto exp = ParticleSun::create();

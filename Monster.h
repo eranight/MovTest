@@ -13,8 +13,6 @@ class Sector;
 
 namespace AstralGame
 {
-	class Hittable;
-
 	class Monster : public cocos2d::Node
 	{
 	protected:
@@ -50,7 +48,6 @@ namespace AstralGame
 
 		int behaviorMode; //1 - calm, 2 - agressive;
 		cocos2d::Node * target; //tracking target (if distance
-		Hittable * hittable;
 
 	private:
 
@@ -62,10 +59,6 @@ namespace AstralGame
 		CalmBehavior * calmBehavior;
 		AgressiveBehavior * agressiveBehavior;
 		Parameters * parameters;
-
-	private:
-
-		float trackingDistance;
 
 	};
 }

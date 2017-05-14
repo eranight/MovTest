@@ -7,7 +7,7 @@ USING_NS_CC;
 using namespace AstralGame;
 
 Canon::Canon(Sector * sector, cocos2d::Node * user, cocos2d::Vec2 position, float rechargeTime) :
-sector(sector), user(user), position(position), rechargeTime(rechargeTime), rechargeTimer(rechargeTime), ready(true)
+sector(sector), user(user), position(position), rechargeTime(rechargeTime), rechargeTimer(0.0f), ready(true)
 {
 	CCASSERT(sector != nullptr, "Sector shouldn't be null!");
 	CCASSERT(user != nullptr, "User shouldn't be null!");

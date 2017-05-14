@@ -28,6 +28,8 @@ namespace AstralGame
 		void start(cocos2d::Node * target);
 		void stop();
 
+		std::function<void()> targetIsDeadReaction;
+
 	public:		//distance interface
 
 		float getMinFireDistance() { return minFireDistance; }
@@ -48,6 +50,7 @@ namespace AstralGame
 		Engine * engine;
 		Canon * canon;
 		cocos2d::Node * target;
+		Hittable * hittable;
 
 		//1 - reach target, 2 - fire, 3 - change position
 		int mode;
