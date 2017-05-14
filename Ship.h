@@ -25,6 +25,8 @@ namespace AstralGame
 
 		Engine * getEngine() { return engine; }
 
+		void setDead();
+
 	private:
 
 		cocos2d::Sprite * hall;

@@ -7,11 +7,14 @@
 #include "BrickClasses\Canon.h"
 #include "BrickClasses\CalmBehavior.h"
 #include "BrickClasses\AgressiveBehavior.h"
+#include "BrickClasses\Parameters.h"
 
 class Sector;
 
 namespace AstralGame
 {
+	class Hittable;
+
 	class Monster : public cocos2d::Node
 	{
 	protected:
@@ -46,7 +49,8 @@ namespace AstralGame
 	private:
 
 		int behaviorMode; //1 - calm, 2 - agressive;
-		cocos2d::Node * target; //tracking target (if distance 
+		cocos2d::Node * target; //tracking target (if distance
+		Hittable * hittable;
 
 	private:
 
@@ -57,6 +61,7 @@ namespace AstralGame
 		Canon * canon;
 		CalmBehavior * calmBehavior;
 		AgressiveBehavior * agressiveBehavior;
+		Parameters * parameters;
 
 	private:
 

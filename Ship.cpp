@@ -1,5 +1,7 @@
 #include "Ship.h"
 #include "Components\AttackingBullets.h"
+#include "Properties\Hittable.h"
+#include "BrickClasses\Parameters.h"
 
 USING_NS_CC;
 
@@ -67,8 +69,27 @@ bool Ship::init(Sector * sector)
 		CCLOG("Failed create component AttackingBullets");
 		return false;
 	}
-	attackingBullets->setName(AttackingBullets::name);
+	attackingBullets->setName(AttackingBullets::NAME);
 	this->addComponent(attackingBullets);
+
+	auto parameters = Parameters::create();
+	if (parameters == nullptr)
+	{
+		CCLOG("Failed create Parameters");
+		return false;
+	}
+	this->setUserObject(parameters);
+
+	auto hittable = Hittable::create(300);
+	if (hittable == nullptr)
+	{
+		CCLOG("Failed create property Hittable");
+		return false;
+	}
+	if (!parameters->addPropertry(hittable))
+	{
+		CCLOG("Failed add property Hittable");
+	}
 
 	scheduleUpdate();
 
@@ -78,4 +99,10 @@ bool Ship::init(Sector * sector)
 void Ship::update(float dt)
 {
 	Node::update(dt);
+}
+
+void Ship::setDead()
+{
+	auto hittable = dynamic_cast<Parameters *>(_userObject)->getProperty<Hittable *>(PROPS_TYPE::hittable);
+	hittable->impactDamage(1000);
 }

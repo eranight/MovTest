@@ -4,7 +4,7 @@
 USING_NS_CC;
 using namespace AstralGame;
 
-const std::string AstralGame::AttackingBullets::name = "attacking_bullet";
+const std::string AstralGame::AttackingBullets::NAME = "attacking_bullet";
 
 AttackingBullets::AttackingBullets() : radius(0.0f) {}
 

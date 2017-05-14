@@ -21,6 +21,19 @@ engine(engine), relaxTime(relaxTime), relaxTimer(0.0f), movTime(movTime), movTim
 	};
 }
 
+void CalmBehavior::start()
+{
+	mode = 1;
+	engine->setCurrMovVelocity(0.0f);
+	relaxTimer = 0.0f;
+	movTimer = 0.0f;
+}
+
+void CalmBehavior::stop()
+{
+
+}
+
 void CalmBehavior::update(float dt)
 {
 	switch (mode)

@@ -101,7 +101,7 @@ void Bullet::setTarget(Node * target)
 {
 	CCASSERT(target != nullptr, "Target shouldn't be null!");
 
-	attackingBulletsComponent = dynamic_cast<AttackingBullets *>(target->getComponent(AttackingBullets::name));
+	attackingBulletsComponent = dynamic_cast<AttackingBullets *>(target->getComponent(AttackingBullets::NAME));
 	CCASSERT(attackingBulletsComponent != nullptr, "Target shouldn't be null!");
 	attackingBulletsComponent->registrateBullet(this);
 	this->damageDistance = attackingBulletsComponent->getRaduis();

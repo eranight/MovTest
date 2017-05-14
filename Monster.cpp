@@ -1,5 +1,6 @@
 #include "Monster.h"
 #include "Ship.h"
+#include "Properties\Hittable.h"
 
 USING_NS_CC;
 
@@ -43,6 +44,14 @@ bool Monster::init(Sector * sector, float trackingDistance)
 		return false;
 	}
 
+	parameters = Parameters::create();
+	if (parameters == nullptr)
+	{
+		CCLOG("Failed create parameters!");
+		return false;
+	}
+	this->setUserObject(parameters);
+
 	engine = Engine::create(sector, this);
 	if (engine == nullptr)
 	{
@@ -80,6 +89,7 @@ bool Monster::init(Sector * sector, float trackingDistance)
 	this->trackingDistance = trackingDistance;
 	this->addChild(body, 1);
 	behaviorMode = 1;
+	calmBehavior->start();
 	engine->turnToAngle(-90.0f);
 
 	scheduleUpdate();
@@ -101,14 +111,23 @@ void Monster::update(float dt)
 			float dist = target->getPosition().distance(getPosition());
 			if (dist <= trackingDistance)
 			{
-				agressiveBehavior->setTarget(target);
 				behaviorMode = 2;
+				calmBehavior->stop();
+				agressiveBehavior->start(target);
 			}
 		}
 	}
 	else
 	{
-		agressiveBehavior->update(dt);
+		if (!hittable->isDead())
+			agressiveBehavior->update(dt);
+		else
+		{
+			target = nullptr;
+			behaviorMode = 1;
+			calmBehavior->start();
+			agressiveBehavior->stop();
+		}
 	}
 }
 
@@ -119,6 +138,12 @@ void Monster::setTarget(Node * target/* = nullptr*/)
 	if (target == nullptr)
 	{
 		behaviorMode = 1;
-		agressiveBehavior->setTarget(nullptr);
+		calmBehavior->start();
+		agressiveBehavior->stop();
+	}
+	else
+	{
+		hittable = dynamic_cast<Parameters *>(target->getUserObject())->getProperty<Hittable *>(PROPS_TYPE::hittable);
+		CCASSERT(hittable != nullptr, "Hittable should be found!");
 	}
 }

@@ -20,7 +20,7 @@ namespace AstralGame
 		bool init(float radius);
 		void update(float dt) override;
 
-		static const std::string name;
+		static const std::string NAME;
 
 		~AttackingBullets();
 	public:

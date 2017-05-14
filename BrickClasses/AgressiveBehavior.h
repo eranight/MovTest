@@ -7,6 +7,7 @@ namespace AstralGame
 {
 	class Engine;
 	class Canon;
+	class Hittable;
 
 	class AgressiveBehavior
 	{
@@ -22,7 +23,10 @@ namespace AstralGame
 		Canon * getCanon() { return canon; }
 		cocos2d::Node * getTarget() { return target; }
 
-		void setTarget(cocos2d::Node * target);
+	public:		//process interface
+
+		void start(cocos2d::Node * target);
+		void stop();
 
 	public:		//distance interface
 

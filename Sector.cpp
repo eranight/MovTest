@@ -102,9 +102,12 @@ bool Sector::createShip()
 			break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
 		{
-												  auto atbs = dynamic_cast<AttackingBullets *>(this->getChildByName("ship")->getComponent(AttackingBullets::name));
+												  auto atbs = dynamic_cast<AttackingBullets *>(this->getChildByName("ship")->getComponent(AttackingBullets::NAME));
 												  atbs->resetBullets();
 		}
+			break;
+		case EventKeyboard::KeyCode::KEY_D:
+			dynamic_cast<Ship *>(this->getChildByName("ship"))->setDead();
 			break;
 		default:
 			break;

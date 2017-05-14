@@ -21,6 +21,11 @@ namespace AstralGame
 		int getMode() { return mode; }
 		Engine * getEngine() { return engine; }
 
+	public:		//process interface
+
+		void start();
+		void stop();
+
 	public: //relax-mode interface
 
 		float getRelaxTime() { return relaxTime; }

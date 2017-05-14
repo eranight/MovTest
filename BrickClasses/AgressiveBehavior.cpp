@@ -19,12 +19,16 @@ engine(engine), canon(canon), target(nullptr), maxFireDistance(maxFireDistance),
 	};*/
 }
 
-void AgressiveBehavior::setTarget(Node * target)
+void AgressiveBehavior::start(Node * target)
 {
 	this->target = target;
-
 	engine->setCurrMovVelocity(velocity);
 	mode = 1;
+}
+
+void AgressiveBehavior::stop()
+{
+	target = nullptr;
 }
 
 void AgressiveBehavior::update(float dt)
