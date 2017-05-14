@@ -1,6 +1,7 @@
 #include "Monster.h"
 #include "Ship.h"
 #include "Properties\Hittable.h"
+#include "Components\TrackingTarget.h"
 
 USING_NS_CC;
 
@@ -58,8 +59,27 @@ bool Monster::init(Sector * sector, float trackingDistance)
 		CCLOG("Failed create engine");
 		return false;
 	}
+	engine->setName("engine");
 	this->addComponent(engine);
 	engine->setMaxMovVelocity(140.0f);
+
+	auto trackingTarget = TrackingTarget::create(trackingDistance);
+	if (trackingTarget == nullptr)
+	{
+		CCLOG("Failed create trackingTarget");
+		return false;
+	}
+	this->addComponent(trackingTarget);
+	trackingTarget->targetIsInTrakcingZoneReaction = [this, trackingTarget](Node * target)
+	{
+		this->hittable = dynamic_cast<Parameters *>(target->getUserObject())->getProperty<Hittable *>(PROPS_TYPE::hittable);
+		CCASSERT(this->hittable != nullptr, "Hittable should be found!");
+
+		this->behaviorMode = 2;
+		this->calmBehavior->stop();
+		this->agressiveBehavior->start(target);
+		trackingTarget->loseTarget(); //do it to stop update
+	};
 
 	canon = new (std::nothrow) Canon(sector, this, Vec2(18.5f, 0.0f), 1.5f);
 	if (canon == nullptr)
@@ -105,17 +125,6 @@ void Monster::update(float dt)
 	if (behaviorMode == 1)
 	{
 		calmBehavior->update(dt);
-		
-		if (target != nullptr)
-		{
-			float dist = target->getPosition().distance(getPosition());
-			if (dist <= trackingDistance)
-			{
-				behaviorMode = 2;
-				calmBehavior->stop();
-				agressiveBehavior->start(target);
-			}
-		}
 	}
 	else
 	{
@@ -133,17 +142,10 @@ void Monster::update(float dt)
 
 void Monster::setTarget(Node * target/* = nullptr*/)
 {
-	this->target = target;
-
-	if (target == nullptr)
-	{
-		behaviorMode = 1;
-		calmBehavior->start();
-		agressiveBehavior->stop();
-	}
+	auto trackingTarget = dynamic_cast<TrackingTarget *>(getComponent(TrackingTarget::NAME));
+	
+	if (target != nullptr)
+		trackingTarget->setTarget(target);
 	else
-	{
-		hittable = dynamic_cast<Parameters *>(target->getUserObject())->getProperty<Hittable *>(PROPS_TYPE::hittable);
-		CCASSERT(hittable != nullptr, "Hittable should be found!");
-	}
+		trackingTarget->loseTarget();
 }
