@@ -34,10 +34,6 @@ namespace AstralGame
 		int getMode() { return behaviorMode; }
 		cocos2d::Node * getTarget() { return target; }
 
-		//if passed target is not null, Monster-class is creating AgressiveBehavior-field
-		//if passed target is null Monster-class switch to calmBehavior
-		void setTarget(cocos2d::Node * target = nullptr);
-
 	public:
 
 		Engine * getEngine() { return engine; }

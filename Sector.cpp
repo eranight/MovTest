@@ -3,6 +3,7 @@
 #include "Components\AttackingBullets.h"
 #include "ObjectsFactory.h"
 #include "ComponentsFactory.h"
+#include "Components\TrackingTarget.h"
 
 USING_NS_CC;
 
@@ -136,7 +137,8 @@ bool Sector::createMontster()
 	auto monster = Monster::create(this, 400.0f);
 	CCASSERT(monster != nullptr, "Monster is null!");
 	monster->setPosition(_origin + _visibleSize * 0.25f);
-	monster->setTarget(ship);
+	auto trackingTarget = dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME));
+	trackingTarget->setTarget(ship);
 	this->addChild(monster, 1, "monster");
 
 	return true;

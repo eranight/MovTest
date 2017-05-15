@@ -130,13 +130,3 @@ void Monster::update(float dt)
 		agressiveBehavior->update(dt);
 	}
 }
-
-void Monster::setTarget(Node * target/* = nullptr*/)
-{
-	auto trackingTarget = dynamic_cast<TrackingTarget *>(getComponent(TrackingTarget::NAME));
-	
-	if (target != nullptr)
-		trackingTarget->setTarget(target);
-	else
-		trackingTarget->loseTarget();
-}
