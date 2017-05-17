@@ -25,6 +25,10 @@ public: //sector math interface
 
 	bool checkValidPosition(const cocos2d::Vec2 & pos);
 
+public: //
+
+	void setNodeUnobtainable(cocos2d::Node * node);
+
 private:
 
 	ObjectsFactory * _objFactory;

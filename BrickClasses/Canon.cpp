@@ -44,7 +44,6 @@ AstralGame::Bullet * Canon::createBullet()
 	}
 	ps->setStartSize(15.0f);
 	ps->setEndSize(1.0f);
-	ps->setPosition(Vec2(0.0f, 0.0f));
 	ps->setLife(0.3f);
 	ps->setLifeVar(0.1f);
 	//ps->setEndColor(Color4F::GREEN);

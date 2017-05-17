@@ -29,6 +29,7 @@ namespace AstralGame
 		void stop();
 
 		std::function<void()> targetIsDeadReaction;
+		std::function<void()> targetIsUnobtainableReaction;
 
 	public:		//distance interface
 

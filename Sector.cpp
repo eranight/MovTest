@@ -9,6 +9,14 @@ USING_NS_CC;
 
 using namespace AstralGame;
 
+Sector::~Sector()
+{
+	if (_objFactory != nullptr)
+		_objFactory->release();
+	if (_comFactory != nullptr)
+		_comFactory->release();
+}
+
 Scene* Sector::createScene()
 {
 	auto scene = Scene::create();
@@ -103,8 +111,9 @@ bool Sector::createShip()
 			break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
 		{
-												  auto atbs = dynamic_cast<AttackingBullets *>(this->getChildByName("ship")->getComponent(AttackingBullets::NAME));
-												  atbs->resetBullets();
+												  //auto atbs = dynamic_cast<AttackingBullets *>(this->getChildByName("ship")->getComponent(AttackingBullets::NAME));
+												  //atbs->resetBullets();
+												  this->setNodeUnobtainable(this->getChildByName("ship"));
 		}
 			break;
 		case EventKeyboard::KeyCode::KEY_D:
@@ -155,10 +164,14 @@ bool Sector::checkValidPosition(const Vec2 & pos)
 	return (_origin + _visibleSize * 0.5f).distance(pos) < _visibleSize.height * 0.5f;
 }
 
-Sector::~Sector()
+void Sector::setNodeUnobtainable(Node * node)
 {
-	if (_objFactory != nullptr)
-		_objFactory->release();
-	if (_comFactory != nullptr)
-		_comFactory->release();
+	this->enumerateChildren("//monster",
+		[&node](cocos2d::Node * monster)
+		{
+			dynamic_cast<Monster *>(monster)->getAgressiveBehavior()->targetIsUnobtainableReaction();
+			return false;
+		}
+	);
 }
+

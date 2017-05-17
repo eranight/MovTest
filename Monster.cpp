@@ -105,6 +105,12 @@ bool Monster::init(Sector * sector, float trackingDistance)
 		this->calmBehavior->start();
 		this->agressiveBehavior->stop();
 	};
+	agressiveBehavior->targetIsUnobtainableReaction = [this]()
+	{
+		this->behaviorMode = 1;
+		this->calmBehavior->start();
+		this->agressiveBehavior->stop();
+	};
 
 	this->addChild(body, 1);
 	behaviorMode = 1;
