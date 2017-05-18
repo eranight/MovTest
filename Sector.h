@@ -27,7 +27,7 @@ public: //sector math interface
 
 public: //
 
-	void setNodeUnobtainable(cocos2d::Node * node);
+	void setNodeUnobtainable(cocos2d::Node * node, bool resetBullets = true);
 
 private:
 

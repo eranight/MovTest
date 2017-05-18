@@ -80,7 +80,7 @@ bool Ship::init(Sector * sector)
 	}
 	this->setUserObject(parameters);
 
-	auto hittable = Hittable::create(300);
+	auto hittable = Hittable::create(1000);
 	if (hittable == nullptr)
 	{
 		CCLOG("Failed create property Hittable");

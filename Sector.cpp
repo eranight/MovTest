@@ -4,6 +4,7 @@
 #include "ObjectsFactory.h"
 #include "ComponentsFactory.h"
 #include "Components\TrackingTarget.h"
+#include "Portal.h"
 
 USING_NS_CC;
 
@@ -41,8 +42,22 @@ bool Sector::init()
 	if (!createFactories())
 		return false;
 
+	Portal * p1 = Portal::create(Vec2(0.0f, -64.0f));
+	p1->setPosition(_origin + Size(_visibleSize.width * 0.5f, _visibleSize.height - 48.0f));
+	this->addChild(p1, 0, "portal1");
+
 	if (!createShip())
 		return false;
+	p1->movingTarget(ship);
+
+	Portal * p2 = Portal::create(Vec2(0.0f, 64.0f));
+	p2->setPosition(_origin + Size(_visibleSize.width * 0.5f, 48.0f));
+	this->addChild(p2, 0, "portal2");
+
+	p2->setTarget(ship);
+	p2->setExitPortal(p1);
+	p1->setTarget(ship);
+	p1->setExitPortal(p2);
 
 	if (!createMontster())
 		return false;
@@ -52,6 +67,7 @@ bool Sector::init()
 
 	this->addChild(circleBoard, 0);
 
+	
 
 	_eventDispatcher->addEventListenerWithFixedPriority(eventListenerKeyboard, 30);
 
@@ -164,7 +180,7 @@ bool Sector::checkValidPosition(const Vec2 & pos)
 	return (_origin + _visibleSize * 0.5f).distance(pos) < _visibleSize.height * 0.5f;
 }
 
-void Sector::setNodeUnobtainable(Node * node)
+void Sector::setNodeUnobtainable(Node * node, bool resetBullets/* = true*/)
 {
 	this->enumerateChildren("//monster",
 		[&node](cocos2d::Node * monster)
@@ -173,5 +189,7 @@ void Sector::setNodeUnobtainable(Node * node)
 			return false;
 		}
 	);
+	if (resetBullets)
+		dynamic_cast<AttackingBullets *>(node->getComponent(AttackingBullets::NAME))->resetBullets();
 }
 
