@@ -62,4 +62,5 @@ void Portal::movingTarget(Node * target)
 	Engine * engine = dynamic_cast<Engine *>(target->getComponent(Engine::NAME));
 	engine->setCurrMovVelocity(0.0f);
 	engine->turnToAngle(angle);
+	dynamic_cast<Sector *>(this->getParent())->setNodeObtainable(target);
 }

@@ -110,7 +110,6 @@ bool Monster::init(Sector * sector, float trackingDistance)
 		this->behaviorMode = 1;
 		this->calmBehavior->start();
 		this->agressiveBehavior->stop();
-		trackingTarget->setTarget(this->getParent()->getChildByName("ship"));
 	};
 
 	this->addChild(body, 1);

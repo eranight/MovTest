@@ -193,3 +193,14 @@ void Sector::setNodeUnobtainable(Node * node, bool resetBullets/* = true*/)
 		dynamic_cast<AttackingBullets *>(node->getComponent(AttackingBullets::NAME))->resetBullets();
 }
 
+void Sector::setNodeObtainable(Node * node)
+{
+	this->enumerateChildren("//monster",
+		[&node](cocos2d::Node * monster)
+		{
+			dynamic_cast<Monster *>(monster)->getAgressiveBehavior()->targetIsUnobtainableReaction();
+			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->setTarget(node);
+			return false;
+		}
+	);
+}
