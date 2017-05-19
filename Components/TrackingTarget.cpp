@@ -21,8 +21,10 @@ bool TrackingTarget::init(float trackingRadius)
 		return false;
 
 	this->setName(NAME);
-
+	this->target = nullptr;
 	this->trackingRadius = trackingRadius;
+	this->trackingTime = 1.5f;
+	this->trackingTimer = 0.0f;
 
 	return true;
 }
@@ -32,12 +34,15 @@ void TrackingTarget::update(float dt)
 	Component::update(dt);
 	CCASSERT(targetIsInTrakcingZoneReaction != nullptr, "targetIsInTrakcingZoneReaction shouldn't be null!");
 
+	trackingTimer += dt;
 	if (target != nullptr)
 	{
 		float dist = target->getPosition().distance(_owner->getPosition());
-		if (dist <= trackingRadius)
+		if (trackingTimer >= trackingTime && dist <= trackingRadius)
 			targetIsInTrakcingZoneReaction(target);
 	}
+	if (trackingTimer >= trackingTime)
+		trackingTimer = 0.0f;
 }
 
 void TrackingTarget::setTarget(Node * target)

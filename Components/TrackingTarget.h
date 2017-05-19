@@ -5,7 +5,8 @@
 
 namespace AstralGame
 {
-	
+	class Engine;
+
 	class TrackingTarget : public cocos2d::Component
 	{
 	protected:
@@ -37,7 +38,9 @@ namespace AstralGame
 	
 		cocos2d::Node * target;
 		float trackingRadius;
-		
+		float trackingTime;
+		float trackingTimer;
+
 	};
 }
 

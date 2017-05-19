@@ -68,10 +68,11 @@ bool Sector::init()
 	this->addChild(circleBoard, 0);
 
 	
-
 	_eventDispatcher->addEventListenerWithFixedPriority(eventListenerKeyboard, 30);
 
 	scheduleUpdate();
+
+	setNodeObtainable(ship);
 
 	return true;
 }
@@ -162,8 +163,11 @@ bool Sector::createMontster()
 	auto monster = Monster::create(this, 400.0f);
 	CCASSERT(monster != nullptr, "Monster is null!");
 	monster->setPosition(_origin + _visibleSize * 0.25f);
-	auto trackingTarget = dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME));
-	trackingTarget->setTarget(ship);
+	this->addChild(monster, 1, "monster");
+
+	monster = Monster::create(this, 400.0f);
+	CCASSERT(monster != nullptr, "Monster is null!");
+	monster->setPosition(_origin + _visibleSize * 0.75f);
 	this->addChild(monster, 1, "monster");
 
 	return true;
