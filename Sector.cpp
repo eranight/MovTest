@@ -42,21 +42,22 @@ bool Sector::init()
 	if (!createFactories())
 		return false;
 
-	Portal * p1 = Portal::create(Vec2(0.0f, -64.0f));
+	InnerPortal * p1 = InnerPortal::create(Vec2(0.0f, -64.0f));
 	p1->setPosition(_origin + Size(_visibleSize.width * 0.5f, _visibleSize.height - 48.0f));
 	this->addChild(p1, 0, "portal1");
 
 	if (!createShip())
 		return false;
-	p1->movingTarget(ship);
+	p1->teleportationOut(ship);
 
-	Portal * p2 = Portal::create(Vec2(0.0f, 64.0f));
+	InnerPortal * p2 = InnerPortal::create(Vec2(0.0f, 64.0f));
 	p2->setPosition(_origin + Size(_visibleSize.width * 0.5f, 48.0f));
 	this->addChild(p2, 0, "portal2");
 
-	p2->setTarget(ship);
-	p2->setExitPortal(p1);
 	p1->setTarget(ship);
+	p2->setTarget(ship);
+
+	p2->setExitPortal(p1);
 	p1->setExitPortal(p2);
 
 	if (!createMontster())

@@ -13,29 +13,55 @@ namespace AstralGame
 
 	public:
 
-		static Portal * create(cocos2d::Vec2 positonForTarget);
-
-		bool init(cocos2d::Vec2 positonForTarget);
+		bool init(const cocos2d::Vec2 & positonForTarget);
 
 		void update(float dt) override;
 
-		Portal * getExitPortal() { return this->exitPortal; }
-		cocos2d::Node * getTarget() { return this->target; }
+	public:
 
-		void setExitPortal(Portal * exitPortal) { this->exitPortal = exitPortal; }
+		cocos2d::Node * getTarget() { return this->target; }
 		void setTarget(cocos2d::Node * target) { this->target = target; }
 
 	public:
 
-		void movingTarget(cocos2d::Node * target);
+		virtual void teleportationIn(cocos2d::Node * target);
+		virtual void teleportationOut(cocos2d::Node * target);
+
+
+	protected:
+
+		cocos2d::Node * view;
+		cocos2d::Vec2 positionForTarget;
+		cocos2d::Node * target;
+	};
+
+	//portal teleport to another portal in the same sector
+	class InnerPortal : public Portal
+	{
+	protected:
+		
+		InnerPortal() = default;
+
+	public:
+
+		static InnerPortal * create(const cocos2d::Vec2 & positionForTarget);
+		bool init(const cocos2d::Vec2 & positionForTarget);
+		
+	public:
+
+		void teleportationIn(cocos2d::Node * target) override;
+
+	public:
+
+		Portal * getExitPortal() { return exitPortal; }
+		void setExitPortal(Portal * exitPortal) { this->exitPortal = exitPortal; }
 
 	private:
 
-		cocos2d::Node * view;
-		cocos2d::Vec2 positonForTarget;
 		Portal * exitPortal;
-		cocos2d::Node * target;
+
 	};
+
 }
 
 #endif  //__PORTAL_H__
