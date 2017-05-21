@@ -3,8 +3,12 @@
 
 #include "cocos2d.h"
 
+class Sector;
+
 namespace AstralGame
 {
+
+
 	class Portal : public cocos2d::Node
 	{
 	protected:
@@ -18,6 +22,8 @@ namespace AstralGame
 		void update(float dt) override;
 
 	public:
+
+		virtual void postCreationInit(Sector * sector) = 0;
 
 		cocos2d::Node * getTarget() { return this->target; }
 		void setTarget(cocos2d::Node * target) { this->target = target; }
@@ -47,6 +53,8 @@ namespace AstralGame
 		static InnerPortal * create(const cocos2d::Vec2 & positionForTarget);
 		bool init(const cocos2d::Vec2 & positionForTarget);
 		
+		virtual void postCreationInit(Sector * sector) override;
+
 	public:
 
 		void teleportationIn(cocos2d::Node * target) override;

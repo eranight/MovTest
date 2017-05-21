@@ -76,6 +76,22 @@ bool InnerPortal::init(const Vec2 & positionForTarget)
 	exitPortal = nullptr;
 }
 
+void InnerPortal::postCreationInit(Sector * sector)
+{
+	auto & nm = _name;
+	sector->enumerateChildren("//portal[[:digit:]]",
+		[this](Node * portal)
+		{
+			if (portal != this)
+			{
+				this->setExitPortal(dynamic_cast<Portal *>(portal));
+				return true;
+			}
+			return false;
+		}
+	);
+}
+
 void InnerPortal::teleportationIn(Node * target)
 {
 	Portal::teleportationIn(target);

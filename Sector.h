@@ -37,6 +37,8 @@ private:
 
 	bool createFactories();
 
+	bool createPortals();
+
 	bool createShip();
 
 	bool createMontster();

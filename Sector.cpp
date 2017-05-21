@@ -42,23 +42,8 @@ bool Sector::init()
 	if (!createFactories())
 		return false;
 
-	InnerPortal * p1 = InnerPortal::create(Vec2(0.0f, -64.0f));
-	p1->setPosition(_origin + Size(_visibleSize.width * 0.5f, _visibleSize.height - 48.0f));
-	this->addChild(p1, 0, "portal1");
-
-	if (!createShip())
+	if (!createPortals())
 		return false;
-	p1->teleportationOut(ship);
-
-	InnerPortal * p2 = InnerPortal::create(Vec2(0.0f, 64.0f));
-	p2->setPosition(_origin + Size(_visibleSize.width * 0.5f, 48.0f));
-	this->addChild(p2, 0, "portal2");
-
-	p1->setTarget(ship);
-	p2->setTarget(ship);
-
-	p2->setExitPortal(p1);
-	p1->setExitPortal(p2);
 
 	if (!createMontster())
 		return false;
@@ -74,6 +59,29 @@ bool Sector::init()
 	scheduleUpdate();
 
 	setNodeObtainable(ship);
+
+	return true;
+}
+
+bool Sector::createPortals()
+{
+	Portal * p1 = InnerPortal::create(Vec2(0.0f, -64.0f));
+	p1->setPosition(_origin + Size(_visibleSize.width * 0.5f, _visibleSize.height - 48.0f));
+	this->addChild(p1, 0, "portal1");
+
+	if (!createShip())
+		return false;
+	p1->teleportationOut(ship);
+
+	Portal * p2 = InnerPortal::create(Vec2(0.0f, 64.0f));
+	p2->setPosition(_origin + Size(_visibleSize.width * 0.5f, 48.0f));
+	this->addChild(p2, 0, "portal2");
+
+	p1->setTarget(ship);
+	p2->setTarget(ship);
+
+	p1->postCreationInit(this);
+	p2->postCreationInit(this);
 
 	return true;
 }
