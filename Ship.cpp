@@ -27,7 +27,7 @@ bool Ship::init(Sector * sector)
 	if (!Node::init())
 		return false;
 
-	hall = Sprite::create("boat.png");
+	hall = Sprite::create("ship_5.png");
 
 	if (hall == nullptr)
 	{
@@ -43,7 +43,7 @@ bool Ship::init(Sector * sector)
 	}
 	ps->setStartSize(15.0f);
 	ps->setEndSize(1.0f);
-	ps->setPosition(Vec2(-25.0f, 0.0f));
+	ps->setPosition(Vec2(-hall->getContentSize().height * 0.5f, 0.0f));
 	ps->setLife(0.4f);
 	ps->setTotalParticles(200);
 	ps->setEmitterMode(ParticleSystem::Mode::RADIUS);
