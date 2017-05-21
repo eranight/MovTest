@@ -65,7 +65,7 @@ bool Sector::init()
 
 bool Sector::createPortals()
 {
-	Portal * p1 = InnerPortal::create(Vec2(0.0f, -64.0f));
+	Portal * p1 = InnerPortal::create("portal2", Vec2(0.0f, -64.0f));
 	p1->setPosition(_origin + Size(_visibleSize.width * 0.5f, _visibleSize.height - 48.0f));
 	this->addChild(p1, 0, "portal1");
 
@@ -73,15 +73,12 @@ bool Sector::createPortals()
 		return false;
 	p1->teleportationOut(ship);
 
-	Portal * p2 = InnerPortal::create(Vec2(0.0f, 64.0f));
+	Portal * p2 = InnerPortal::create("portal1", Vec2(0.0f, 64.0f));
 	p2->setPosition(_origin + Size(_visibleSize.width * 0.5f, 48.0f));
 	this->addChild(p2, 0, "portal2");
 
 	p1->setTarget(ship);
 	p2->setTarget(ship);
-
-	p1->postCreationInit(this);
-	p2->postCreationInit(this);
 
 	return true;
 }

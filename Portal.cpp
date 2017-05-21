@@ -58,44 +58,31 @@ void Portal::teleportationOut(Node * target)
 	dynamic_cast<Sector *>(this->getParent())->setNodeObtainable(target);
 }
 
-InnerPortal * InnerPortal::create(const Vec2 & positionForTarget)
+InnerPortal * InnerPortal::create(const std::string & exitPortalName, cocos2d::Vec2 & positionForTarget)
 {
 	auto ret = new (std::nothrow) InnerPortal();
-	if (ret != nullptr && ret->init(positionForTarget))
+	if (ret != nullptr && ret->init(exitPortalName, positionForTarget))
 		ret->autorelease();
 	else
 		CC_SAFE_DELETE(ret);
 	return ret;
 }
 
-bool InnerPortal::init(const Vec2 & positionForTarget)
+bool InnerPortal::init(const std::string & exitPortalName, const Vec2 & positionForTarget)
 {
 	if (!Portal::init(positionForTarget))
 		return false;
 
-	exitPortal = nullptr;
-}
-
-void InnerPortal::postCreationInit(Sector * sector)
-{
-	auto & nm = _name;
-	sector->enumerateChildren("//portal[[:digit:]]",
-		[this](Node * portal)
-		{
-			if (portal != this)
-			{
-				this->setExitPortal(dynamic_cast<Portal *>(portal));
-				return true;
-			}
-			return false;
-		}
-	);
+	this->exitPortalName = exitPortalName;
+	return true;
 }
 
 void InnerPortal::teleportationIn(Node * target)
 {
 	Portal::teleportationIn(target);
 	
+	auto exitPortal = dynamic_cast<Portal *>(getParent()->getChildByName(exitPortalName));
+
 	CCASSERT(exitPortal != nullptr, "ExitPortal shouldn't be null!");
 	exitPortal->teleportationOut(target);
 }

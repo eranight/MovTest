@@ -3,8 +3,6 @@
 
 #include "cocos2d.h"
 
-class Sector;
-
 namespace AstralGame
 {
 
@@ -22,8 +20,6 @@ namespace AstralGame
 		void update(float dt) override;
 
 	public:
-
-		virtual void postCreationInit(Sector * sector) = 0;
 
 		cocos2d::Node * getTarget() { return this->target; }
 		void setTarget(cocos2d::Node * target) { this->target = target; }
@@ -50,10 +46,8 @@ namespace AstralGame
 
 	public:
 
-		static InnerPortal * create(const cocos2d::Vec2 & positionForTarget);
-		bool init(const cocos2d::Vec2 & positionForTarget);
-		
-		virtual void postCreationInit(Sector * sector) override;
+		static InnerPortal * create(const std::string & exitPortalName, cocos2d::Vec2 & positionForTarget);
+		bool init(const std::string & exitPortalName, const cocos2d::Vec2 & positionForTarget);
 
 	public:
 
@@ -61,12 +55,11 @@ namespace AstralGame
 
 	public:
 
-		Portal * getExitPortal() { return exitPortal; }
-		void setExitPortal(Portal * exitPortal) { this->exitPortal = exitPortal; }
+		const std::string &getExitPortalName() { return exitPortalName; }
 
 	private:
 
-		Portal * exitPortal;
+		std::string exitPortalName;
 
 	};
 
