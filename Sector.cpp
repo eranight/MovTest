@@ -195,7 +195,8 @@ void Sector::setNodeUnobtainable(Node * node, bool resetBullets/* = true*/)
 	this->enumerateChildren("//monster",
 		[&node](cocos2d::Node * monster)
 		{
-			dynamic_cast<Monster *>(monster)->getAgressiveBehavior()->targetIsUnobtainableReaction();
+			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->loseTarget();
+			//dynamic_cast<Monster *>(monster)->getAgressiveBehavior()->targetIsUnobtainableReaction();
 			return false;
 		}
 	);
@@ -208,8 +209,10 @@ void Sector::setNodeObtainable(Node * node)
 	this->enumerateChildren("//monster",
 		[&node](cocos2d::Node * monster)
 		{
-			dynamic_cast<Monster *>(monster)->getAgressiveBehavior()->targetIsUnobtainableReaction();
-			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->setTarget(node);
+			//dynamic_cast<Monster *>(monster)->getAgressiveBehavior()->targetIsUnobtainableReaction();
+			auto trackingTarget = dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME));
+			trackingTarget->setTarget(node);
+			trackingTarget->setEnabled(true);
 			return false;
 		}
 	);

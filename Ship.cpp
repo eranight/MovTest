@@ -2,6 +2,7 @@
 #include "Components\AttackingBullets.h"
 #include "Properties\Hittable.h"
 #include "BrickClasses\Parameters.h"
+#include "Sector.h"
 
 USING_NS_CC;
 
@@ -80,12 +81,16 @@ bool Ship::init(Sector * sector)
 	}
 	this->setUserObject(parameters);
 
-	auto hittable = Hittable::create(1000);
+	auto hittable = Hittable::create(1200);
 	if (hittable == nullptr)
 	{
 		CCLOG("Failed create property Hittable");
 		return false;
 	}
+	hittable->deadevent = [sector, this]()
+	{
+		sector->setNodeUnobtainable(this);
+	};
 	if (!parameters->addPropertry(hittable))
 	{
 		CCLOG("Failed add property Hittable");

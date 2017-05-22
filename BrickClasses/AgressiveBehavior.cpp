@@ -39,12 +39,6 @@ void AgressiveBehavior::update(float dt)
 {
 	CCASSERT(target != nullptr, "Target shouldn't be null!");
 
-	if (hittable->isDead())
-	{
-		targetIsDeadReaction();
-		return;
-	}
-
 	const Vec2 & ownpos = engine->getUser()->getPosition();
 	const Vec2 & shppos = target->getPosition();
 	float faceangle = -CC_RADIANS_TO_DEGREES((shppos - ownpos).getAngle());

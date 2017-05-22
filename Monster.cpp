@@ -73,7 +73,13 @@ bool Monster::init(Sector * sector, float trackingDistance)
 		this->behaviorMode = 2;
 		this->calmBehavior->stop();
 		this->agressiveBehavior->start(target);
-		trackingTarget->loseTarget(); //do it to stop update
+		trackingTarget->setEnabled(false);
+	};
+	trackingTarget->loseTargetReaction = [this, trackingTarget]()
+	{
+		this->behaviorMode = 1;
+		this->calmBehavior->start();
+		this->agressiveBehavior->stop();
 	};
 
 	canon = new (std::nothrow) Canon(sector, this, Vec2(18.5f, 0.0f), 1.5f);
@@ -99,18 +105,6 @@ bool Monster::init(Sector * sector, float trackingDistance)
 		CC_SAFE_DELETE(calmBehavior);
 		return false;
 	}
-	agressiveBehavior->targetIsDeadReaction = [this]()
-	{
-		this->behaviorMode = 1;
-		this->calmBehavior->start();
-		this->agressiveBehavior->stop();
-	};
-	agressiveBehavior->targetIsUnobtainableReaction = [this, trackingTarget]()
-	{
-		this->behaviorMode = 1;
-		this->calmBehavior->start();
-		this->agressiveBehavior->stop();
-	};
 
 	this->addChild(body, 1);
 	behaviorMode = 1;

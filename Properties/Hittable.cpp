@@ -21,4 +21,11 @@ void Hittable::impactDamage(int damage)
 		hp = 0;
 	else
 		hp -= damage;
+
+	if (hp == 0)
+	{
+		CCASSERT(deadevent != nullptr, "DeadEvent shouldn't be null!");
+		deadevent();
+	}
+		
 }

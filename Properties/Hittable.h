@@ -23,6 +23,7 @@ namespace AstralGame
 	public:
 
 		void impactDamage(int damage);
+		std::function<void()> deadevent;
 
 	private:
 

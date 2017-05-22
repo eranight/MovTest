@@ -28,9 +28,6 @@ namespace AstralGame
 		void start(cocos2d::Node * target);
 		void stop();
 
-		std::function<void()> targetIsDeadReaction;
-		std::function<void()> targetIsUnobtainableReaction;
-
 	public:		//distance interface
 
 		float getMinFireDistance() { return minFireDistance; }

@@ -31,6 +31,7 @@ bool TrackingTarget::init(float trackingRadius)
 
 void TrackingTarget::update(float dt)
 {
+	if (!_enabled) return;
 	Component::update(dt);
 	CCASSERT(targetIsInTrakcingZoneReaction != nullptr, "targetIsInTrakcingZoneReaction shouldn't be null!");
 
@@ -53,4 +54,6 @@ void TrackingTarget::setTarget(Node * target)
 void TrackingTarget::loseTarget()
 {
 	target = nullptr;
+	CCASSERT(loseTargetReaction != nullptr, "loseTargetReaction shouldn't be null!");
+	loseTargetReaction();
 }
