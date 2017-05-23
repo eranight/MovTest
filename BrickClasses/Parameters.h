@@ -5,6 +5,9 @@
 
 namespace AstralGame
 {
+
+#define PARAMS(node) dynamic_cast<Parameters *>(node->getUserObject())
+
 	class Parameters : public cocos2d::Ref
 	{
 	protected:

@@ -10,6 +10,8 @@ namespace AstralGame
 	enum class PROPS_TYPE
 	{
 		hittable,
+		observed,
+		observer,
 		count
 	};
 

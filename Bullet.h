@@ -9,6 +9,7 @@ namespace AstralGame
 {
 	class Engine;
 	class AttackingBullets;
+	class Observer;
 
 	class Bullet : public cocos2d::Node
 	{
@@ -21,6 +22,8 @@ namespace AstralGame
 		static Bullet * create(Sector * sector, float velocity, cocos2d::Node * view = nullptr);
 		bool init(Sector * sector, float velocity, cocos2d::Node * view);
 		void update(float dt) override;
+
+		~Bullet();
 
 	public:
 
@@ -44,6 +47,7 @@ namespace AstralGame
 		cocos2d::Node * view;
 		//set in setTarget method
 		AttackingBullets * attackingBulletsComponent;
+		Observer * observer;
 		//if target is null bullet fly toward targetposition!
 		cocos2d::Vec2 targetPosition;
 
