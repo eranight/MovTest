@@ -25,7 +25,6 @@ namespace AstralGame
 		//it call when distance between owner and target is equal or small than trackingRadius
 		//it shouldn't be null!
 		std::function<void(cocos2d::Node *)> targetIsInTrakcingZoneReaction;
-		std::function<void()> loseTargetReaction;
 
 	public:
 
@@ -33,7 +32,6 @@ namespace AstralGame
 		float getTrackingRadius() { return trackingRadius; }
 	
 		void setTarget(cocos2d::Node * target);
-		void loseTarget();
 	
 	private:
 	

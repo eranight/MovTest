@@ -50,10 +50,3 @@ void TrackingTarget::setTarget(Node * target)
 {
 	this->target = target;
 }
-
-void TrackingTarget::loseTarget()
-{
-	target = nullptr;
-	CCASSERT(loseTargetReaction != nullptr, "loseTargetReaction shouldn't be null!");
-	loseTargetReaction();
-}

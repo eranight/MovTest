@@ -1,6 +1,7 @@
 #include "Monster.h"
 #include "Ship.h"
 #include "Components\TrackingTarget.h"
+#include "Properties\Observer.hpp"
 
 USING_NS_CC;
 
@@ -61,6 +62,28 @@ bool Monster::init(Sector * sector, float trackingDistance)
 	this->addComponent(engine);
 	engine->setMaxMovVelocity(140.0f);
 
+	auto parameters = Parameters::create();
+	if (parameters == nullptr)
+	{
+		CCLOG("Failed create Parameters");
+		return false;
+	}
+	this->setUserObject(parameters);
+
+	auto observer = Observer::create();
+	if (observer == nullptr)
+	{
+		CCLOG("Failed create observer");
+		return false;
+	}
+	observer->loseTargetReaction = [this]()
+	{
+		this->behaviorMode = 1;
+		this->calmBehavior->start();
+		this->agressiveBehavior->stop();
+	};
+	parameters->addPropertry(observer);
+
 	auto trackingTarget = TrackingTarget::create(trackingDistance);
 	if (trackingTarget == nullptr)
 	{
@@ -68,18 +91,13 @@ bool Monster::init(Sector * sector, float trackingDistance)
 		return false;
 	}
 	this->addComponent(trackingTarget);
-	trackingTarget->targetIsInTrakcingZoneReaction = [this, trackingTarget](Node * target)
+	trackingTarget->targetIsInTrakcingZoneReaction = [this, trackingTarget, observer](Node * target)
 	{
 		this->behaviorMode = 2;
 		this->calmBehavior->stop();
 		this->agressiveBehavior->start(target);
 		trackingTarget->setEnabled(false);
-	};
-	trackingTarget->loseTargetReaction = [this, trackingTarget]()
-	{
-		this->behaviorMode = 1;
-		this->calmBehavior->start();
-		this->agressiveBehavior->stop();
+		observer->captureTarget(target);
 	};
 
 	canon = new (std::nothrow) Canon(sector, this, Vec2(18.5f, 0.0f), 1.5f);

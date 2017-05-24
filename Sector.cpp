@@ -5,6 +5,9 @@
 #include "ComponentsFactory.h"
 #include "Components\TrackingTarget.h"
 #include "Portal.h"
+#include "BrickClasses\Parameters.h"
+#include "Properties\Observed.hpp"
+#include "Properties\Observer.hpp"
 
 USING_NS_CC;
 
@@ -176,6 +179,15 @@ bool Sector::createMontster()
 	monster->setPosition(_origin + _visibleSize * 0.75f);
 	this->addChild(monster, 1, "monster");
 
+	auto target = ship;
+	this->enumerateChildren("//monster",
+		[&target](cocos2d::Node * monster)
+		{
+			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->setTarget(target);
+			return false;
+		}
+	);
+
 	return true;
 }
 
@@ -195,13 +207,11 @@ void Sector::setNodeUnobtainable(Node * node, bool resetBullets/* = true*/)
 	this->enumerateChildren("//monster",
 		[&node](cocos2d::Node * monster)
 		{
-			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->loseTarget();
-			//dynamic_cast<Monster *>(monster)->getAgressiveBehavior()->targetIsUnobtainableReaction();
+			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->setEnabled(false);
 			return false;
 		}
 	);
-	if (resetBullets)
-		dynamic_cast<AttackingBullets *>(node->getComponent(AttackingBullets::NAME))->resetBullets();
+	PARAMS(node)->getProperty<Observed *>(PROPS_TYPE::observed)->resetObserver();
 }
 
 void Sector::setNodeObtainable(Node * node)
@@ -209,11 +219,20 @@ void Sector::setNodeObtainable(Node * node)
 	this->enumerateChildren("//monster",
 		[&node](cocos2d::Node * monster)
 		{
-			//dynamic_cast<Monster *>(monster)->getAgressiveBehavior()->targetIsUnobtainableReaction();
-			auto trackingTarget = dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME));
-			trackingTarget->setTarget(node);
-			trackingTarget->setEnabled(true);
+			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->setEnabled(true);
 			return false;
 		}
 	);
+}
+
+void Sector::setNodeDead(Node * node)
+{
+	this->enumerateChildren("//monster",
+		[&node](cocos2d::Node * monster)
+		{
+			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->setTarget(nullptr);
+			return false;
+		}
+	);
+	PARAMS(node)->getProperty<Observed *>(PROPS_TYPE::observed)->resetObserver();
 }

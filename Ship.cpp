@@ -90,7 +90,7 @@ bool Ship::init(Sector * sector)
 	}
 	hittable->deadevent = [sector, this]()
 	{
-		sector->setNodeUnobtainable(this);
+		sector->setNodeDead(this);
 	};
 	if (!parameters->addPropertry(hittable))
 	{

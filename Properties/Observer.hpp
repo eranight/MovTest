@@ -24,6 +24,10 @@ namespace AstralGame
 
 	public:
 
+		std::function<void()> loseTargetReaction;
+
+	public:
+
 		cocos2d::Node * getTarget() { return target; }
 
 	private:

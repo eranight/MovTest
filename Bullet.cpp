@@ -61,6 +61,10 @@ bool Bullet::init(Sector * sector, float velocity, Node * view)
 		CCLOG("Failed create Observer");
 		return false;
 	}
+	observer->loseTargetReaction = [this]()
+	{
+
+	};
 	observer->retain();
 
 
@@ -123,6 +127,7 @@ void Bullet::update(float dt)
 
 		if (getPosition().distance(target->getPosition()) <= damageDistance)
 		{
+			observer->dropTarget();
 			auto hittable = dynamic_cast<Parameters *>(target->getUserObject())->getProperty<Hittable *>(PROPS_TYPE::hittable);
 			hittable->impactDamage(100);
 

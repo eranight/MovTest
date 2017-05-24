@@ -12,7 +12,7 @@ Observer::Observer() : Property(PROPS_TYPE::observer)
 
 Observer::~Observer()
 {
-	loseTarget();
+	//loseTarget();
 }
 
 void Observer::captureTarget(Node * target)
@@ -26,6 +26,7 @@ void Observer::captureTarget(Node * target)
 void Observer::loseTarget()
 {
 	target = nullptr;
+	loseTargetReaction();
 }
 
 void Observer::dropTarget()

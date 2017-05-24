@@ -30,6 +30,8 @@ public: //
 	void setNodeUnobtainable(cocos2d::Node * node, bool resetBullets = true);
 	void setNodeObtainable(cocos2d::Node * node);
 
+	void setNodeDead(cocos2d::Node * node);
+
 private:
 
 	ObjectsFactory * _objFactory;
