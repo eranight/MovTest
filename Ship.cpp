@@ -1,5 +1,4 @@
 #include "Ship.h"
-#include "Components\AttackingBullets.h"
 #include "Properties\Hittable.h"
 #include "Properties\Observed.hpp"
 #include "BrickClasses\Parameters.h"
@@ -64,15 +63,6 @@ bool Ship::init(Sector * sector)
 	this->addChild(hall, 1);
 	this->addChild(ps, 0);
 	engine->turnToAngle(-90.0f);
-
-	/*auto attackingBullets = AttackingBullets::create(20.0f);
-	if (attackingBullets == nullptr)
-	{
-		CCLOG("Failed create component AttackingBullets");
-		return false;
-	}
-	attackingBullets->setName(AttackingBullets::NAME);
-	this->addComponent(attackingBullets);*/
 
 	auto parameters = Parameters::create();
 	if (parameters == nullptr)

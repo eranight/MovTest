@@ -1,6 +1,5 @@
 #include "Sector.h"
 #include "Monster.h"
-#include "Components\AttackingBullets.h"
 #include "ObjectsFactory.h"
 #include "ComponentsFactory.h"
 #include "Components\TrackingTarget.h"
@@ -103,6 +102,8 @@ bool Sector::createFactories()
 		return false;
 	}
 	_comFactory->retain();
+	
+	return true;
 }
 
 
@@ -137,8 +138,6 @@ bool Sector::createShip()
 			break;
 		case EventKeyboard::KeyCode::KEY_SPACE:
 		{
-												  //auto atbs = dynamic_cast<AttackingBullets *>(this->getChildByName("ship")->getComponent(AttackingBullets::NAME));
-												  //atbs->resetBullets();
 												  this->setNodeUnobtainable(this->getChildByName("ship"));
 		}
 			break;

@@ -8,7 +8,6 @@ class Sector;
 namespace AstralGame
 {
 	class Engine;
-	class AttackingBullets;
 	class Observer;
 
 	class Bullet : public cocos2d::Node
@@ -33,8 +32,6 @@ namespace AstralGame
 		const cocos2d::Vec2 & getTargetPosition() { return targetPosition; }
 
 		void setTarget(Node * target);
-		void loseTarget();
-		void updateTargetPosition(const cocos2d::Vec2 & targetPos);
 
 	public:
 
@@ -46,7 +43,6 @@ namespace AstralGame
 		//particlesystem or sprite
 		cocos2d::Node * view;
 		//set in setTarget method
-		AttackingBullets * attackingBulletsComponent;
 		Observer * observer;
 		//if target is null bullet fly toward targetposition!
 		cocos2d::Vec2 targetPosition;
