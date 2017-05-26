@@ -203,35 +203,44 @@ bool Sector::checkValidPosition(const Vec2 & pos)
 
 void Sector::setNodeUnobtainable(Node * node, bool resetBullets/* = true*/)
 {
-	this->enumerateChildren("//monster",
-		[&node](cocos2d::Node * monster)
+	auto children = this->getChildren();
+	for (auto & child : children)
+	{
+		auto component = child->getComponent(TrackingTarget::NAME);
+		if (component != nullptr)
 		{
-			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->setEnabled(false);
-			return false;
+			auto trackingTarget = dynamic_cast<TrackingTarget *>(component);
+			if (trackingTarget->getTarget() == node)
+				trackingTarget->setEnabled(false);
+
 		}
-	);
+	}
 	PARAMS(node)->getProperty<Observed *>(PROPS_TYPE::observed)->resetObserver();
 }
 
 void Sector::setNodeObtainable(Node * node)
 {
-	this->enumerateChildren("//monster",
-		[&node](cocos2d::Node * monster)
-		{
-			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->setEnabled(true);
-			return false;
-		}
-	);
+	if (node == ship)
+		this->enumerateChildren("//monster",
+			[&node](cocos2d::Node * monster)
+			{
+				dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->setEnabled(true);
+				return false;
+			}
+		);
 }
 
 void Sector::setNodeDead(Node * node)
 {
-	this->enumerateChildren("//monster",
+	if (node == ship)
+	{
+		this->enumerateChildren("//monster",
 		[&node](cocos2d::Node * monster)
 		{
 			dynamic_cast<TrackingTarget *>(monster->getComponent(TrackingTarget::NAME))->setTarget(nullptr);
 			return false;
 		}
-	);
-	PARAMS(node)->getProperty<Observed *>(PROPS_TYPE::observed)->resetObserver();
+		);
+		PARAMS(node)->getProperty<Observed *>(PROPS_TYPE::observed)->resetObserver();
+	}
 }
