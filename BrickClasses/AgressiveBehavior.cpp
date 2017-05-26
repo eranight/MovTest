@@ -48,11 +48,11 @@ void AgressiveBehavior::update(float dt)
 	case 1:
 		if (ownpos.distance(shppos) > minFireDistance)
 		{
+
 			engine->turnToAngle(faceangle);
 			if (engine->getCurrMovVelocity() == 0.0f)
-			{
 				engine->setCurrMovVelocity(velocity);
-			}
+				
 		}
 		else
 		{
@@ -99,4 +99,29 @@ void AgressiveBehavior::setVelocity(float velocity)
 
 
 	this->velocity = velocity;
+}
+
+bool AgressiveBehavior::checkParallelDirection(Vec2 & resultDirect)
+{
+	Vec2 v0 = dynamic_cast<Engine *>(target->getComponent(Engine::NAME))->getMovDirection();
+	Vec2 r = engine->getUser()->getPosition() - target->getPosition();
+	float sgn = 1.0f;
+	float beta = CC_RADIANS_TO_DEGREES( v0.getAngle(r) );
+	float betasgn = beta > 0.0f ? 1.0f : -1.0f;
+	float absbeta = abs(beta);
+	if (absbeta < 90.0f)
+	{
+		beta = betasgn * (180.0f - 2.0f * absbeta);
+		sgn = -1.0f;
+	}
+	float alpha = betasgn * (absbeta - 90.0f);
+	float m = cos(CC_DEGREES_TO_RADIANS(alpha)) * r.length();
+	
+	if (m < minFireDistance)
+	{
+		resultDirect = sgn * v0;
+		return true;
+	}
+
+	return false;
 }

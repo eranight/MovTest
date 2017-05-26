@@ -27,9 +27,9 @@ Monster::~Monster()
 	if (canon != nullptr)
 		CC_SAFE_DELETE(canon);
 	if (calmBehavior != nullptr)
-		delete calmBehavior;
+		CC_SAFE_DELETE(calmBehavior);
 	if (agressiveBehavior != nullptr)
-		delete agressiveBehavior;
+		CC_SAFE_DELETE(agressiveBehavior);
 }
 
 bool Monster::init(Sector * sector, float trackingDistance)
@@ -38,7 +38,6 @@ bool Monster::init(Sector * sector, float trackingDistance)
 		return false;
 
 	body = Sprite::create("monster.png");
-
 	if (body == nullptr)
 	{
 		CCLOG("Failed create body");

@@ -46,7 +46,6 @@ AstralGame::Bullet * Canon::createBullet()
 	ps->setEndSize(1.0f);
 	ps->setLife(0.3f);
 	ps->setLifeVar(0.1f);
-	//ps->setEndColor(Color4F::GREEN);
 	ps->setTotalParticles(200);
 	ps->setEmitterMode(ParticleSystem::Mode::RADIUS);
 	auto bullet = Bullet::create(sector, 250.0f, ps);

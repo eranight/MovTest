@@ -111,3 +111,8 @@ void Engine::setCurrMovVelocity(float currMovVelocity)
 		currMovVelocity = maxMovVelocity;
 	this->currMovVelocity = currMovVelocity;
 }
+
+void Engine::setMovDirection(const Vec2 & movDirection)
+{
+	this->movDirection = movDirection.getNormalized();
+}

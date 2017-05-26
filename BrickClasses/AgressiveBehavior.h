@@ -45,6 +45,10 @@ namespace AstralGame
 
 	private:
 
+		bool checkParallelDirection(cocos2d::Vec2 & resultDirect);
+
+	private:
+
 		Engine * engine;
 		Canon * canon;
 		cocos2d::Node * target;
